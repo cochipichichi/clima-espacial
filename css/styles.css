@@ -1,0 +1,328 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #020617;
+  --bg-light: #f9fafb;
+  --fg-dark: #e5e7eb;
+  --fg-light: #111827;
+  --accent: #f97316;
+  --card-bg-dark: #020617;
+  --card-bg-light: #ffffff;
+  --border-subtle: rgba(148, 163, 184, 0.4);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  line-height: 1.6;
+  background: var(--bg-dark);
+  color: var(--fg-dark);
+  padding-top: 64px;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light {
+  background: var(--bg-light);
+  color: var(--fg-light);
+}
+
+.top-bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background: rgba(15, 23, 42, 0.98);
+  color: #e5e7eb;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+  z-index: 50;
+}
+
+body.light .top-bar {
+  background: rgba(249, 250, 251, 0.92);
+  color: #111827;
+}
+
+.top-left .logo {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.controls button {
+  margin-left: 0.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s, box-shadow 0.2s;
+}
+
+body.light .controls button {
+  background: #ffffff;
+  color: #111827;
+}
+
+.controls button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.2fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 2.7vw, 2.4rem);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  max-width: 40rem;
+  color: #9ca3af;
+}
+
+body.light .subtitle {
+  color: #4b5563;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #f97316, #facc15);
+  color: #111827;
+  font-weight: 600;
+}
+
+.btn.secondary {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.7);
+  color: inherit;
+}
+
+.btn.view {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(148, 163, 184, 0.7);
+  color: #e5e7eb;
+}
+
+body.light .btn.view {
+  background: #ffffff;
+  color: #111827;
+}
+
+.hero-side {
+  display: flex;
+  align-items: stretch;
+}
+
+.qr-card {
+  border-radius: 1.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: radial-gradient(circle at top, #0f172a, #020617 55%, #111827);
+  color: #e5e7eb;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.qr-placeholder {
+  border-radius: 1rem;
+  border: 1px dashed rgba(148, 163, 184, 0.8);
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-views {
+  margin-bottom: 1.5rem;
+}
+
+.view-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  border-radius: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border-subtle);
+  background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.15), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 55%),
+    var(--card-bg-dark);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.6);
+}
+
+body.light .card {
+  background: var(--card-bg-light);
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+body.light .card-desc {
+  color: #4b5563;
+}
+
+.metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #facc15;
+}
+
+.img-placeholder {
+  border-radius: 1rem;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.bullets {
+  font-size: 0.9rem;
+  padding-left: 1rem;
+}
+
+.card.full {
+  grid-column: 1 / -1;
+  margin-top: 2rem;
+}
+
+#tabla-registro {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+#tabla-registro th,
+#tabla-registro td {
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  padding: 0.4rem;
+}
+
+#tabla-registro input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0.15rem 0.25rem;
+}
+
+.quiz-item {
+  margin-bottom: 1rem;
+}
+
+.quiz-item p {
+  margin-bottom: 0.3rem;
+}
+
+.quiz-item label {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.quiz-result {
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b7280;
+  padding: 1.5rem 1rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .top-left .logo {
+    font-size: 0.8rem;
+  }
+
+  .controls button {
+    padding-inline: 0.45rem;
+    font-size: 0.8rem;
+  }
+}

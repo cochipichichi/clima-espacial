@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>👁️ 3D — Sol & campo magnético</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="dark">
+  <header class="top-bar">
+    <div class="top-left">
+      <span class="logo">👁️ 3D — Sol &amp; Campo magnético</span>
+    </div>
+    <div class="top-right controls">
+      <a href="../index.html" class="btn secondary">🏠 Volver</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="card full">
+      <h1>Modelo 3D del Sol (placeholder)</h1>
+      <p>
+        Este visor usa <code>&lt;model-viewer&gt;</code>. Reemplaza el archivo
+        <code>../assets/models/sol.glb</code> por un modelo 3D del Sol o de la magnetosfera para trabajar con el curso.
+      </p>
+      <model-viewer src="../assets/models/sol.glb"
+        alt="Modelo 3D representativo del Sol"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        auto-rotate
+        camera-controls
+        exposure="1.1"
+        style="width:100%; height:420px; border-radius:1rem; background:#000;">
+      </model-viewer>
+      <p>
+        En dispositivos compatibles, presiona el botón <strong>AR</strong> del visor para ver el modelo en realidad aumentada.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>📱 AR — Sol en tu mesa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.6/aframe/build/aframe-ar.min.js"></script>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="dark">
+  <header class="top-bar">
+    <div class="top-left">
+      <span class="logo">📱 AR — Sol en tu mesa</span>
+    </div>
+    <div class="top-right controls">
+      <a href="../index.html" class="btn secondary">🏠 Volver</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="card full">
+      <h1>Realidad aumentada con marcador</h1>
+      <p>
+        Este ejemplo usa <strong>AR.js</strong> con un marcador tipo <code>hiro</code>. Imprime el marcador clásico
+        o configura el tuyo y reemplaza el modelo 3D en <code>../assets/models/sol.glb</code>.
+      </p>
+
+      <p><strong>Instrucciones rápidas:</strong></p>
+      <ol>
+        <li>Abre esta página desde tu celular.</li>
+        <li>Permite el uso de la cámara.</li>
+        <li>Apunta al marcador impreso y verás el Sol sobre la hoja.</li>
+      </ol>
+
+      <p>
+        Cuando estés listo, presiona el botón para iniciar la cámara:
+      </p>
+    </section>
+
+    <section class="card full" style="padding:0; overflow:hidden;">
+      <a-scene
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-assets>
+          <a-asset-item id="solModel" src="../assets/models/sol.glb"></a-asset-item>
+        </a-assets>
+
+        <a-marker type="pattern" preset="hiro">
+          <a-entity gltf-model="#solModel" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+      </a-scene>
+    </section>
+  </main>
+</body>
+</html>

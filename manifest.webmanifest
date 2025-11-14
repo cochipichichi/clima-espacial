@@ -1,0 +1,9 @@
+{
+  "name": "Clima Espacial & Resonancia Schumann — Dashboard Educativo",
+  "short_name": "SchumannLab",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": []
+}
