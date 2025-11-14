@@ -47,5 +47,17 @@
       </a-scene>
     </section>
   </main>
+
+  <script>
+    // Desbloquear logro VR
+    try {
+      const raw = localStorage.getItem("schumann_badges");
+      const badges = raw ? JSON.parse(raw) : {};
+      if (!badges["viewerVR"]) {
+        badges["viewerVR"] = "🥽 Viajero/a de auroras VR";
+        localStorage.setItem("schumann_badges", JSON.stringify(badges));
+      }
+    } catch (e) {}
+  </script>
 </body>
 </html>

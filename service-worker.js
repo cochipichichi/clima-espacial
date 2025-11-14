@@ -1,4 +1,4 @@
-const CACHE_NAME = "schumann-dashboard-v1";
+const CACHE_NAME = "schumann-dashboard-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -9,9 +9,7 @@ const ASSETS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 

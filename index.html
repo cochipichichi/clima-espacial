@@ -12,15 +12,15 @@
   <!-- Barra inclusiva fija -->
   <header class="top-bar">
     <div class="top-left">
-      <span class="logo">☀️🌍 Schumann & Clima Espacial</span>
+      <span class="logo">☀️🌍 Schumann &amp; Clima Espacial</span>
     </div>
     <div class="top-right controls">
       <button id="btn-home" title="Inicio">🏠</button>
-      <button id="btn-voice" title="Narrador">🗣️</button>
+      <button id="btn-voice" title="Narrador general">🗣️</button>
       <button id="btn-theme" title="Cambiar tema claro/oscuro">🌓</button>
       <button id="btn-font-plus" title="Aumentar tamaño de letra">A+</button>
       <button id="btn-font-minus" title="Disminuir tamaño de letra">A−</button>
-      <button id="btn-lang" title="Cambiar idioma ES/EN">🌐</button>
+      <button id="btn-lang" title="Cambiar idioma ES/EN (narrador)">🌐</button>
       <button id="btn-focus" title="Modo concentración / neurodivergente">🧠</button>
       <button id="btn-search" title="Buscar en la página">🔍</button>
     </div>
@@ -29,11 +29,14 @@
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <h1 id="hero-title">Dashboard de Clima Espacial & Resonancia Schumann</h1>
+        <h1 id="hero-title">Dashboard de Clima Espacial &amp; Resonancia Schumann</h1>
         <p class="subtitle">
-          Repositorio educativo para observar el Sol, el campo magnético de la Tierra, el índice Kp y las auroras.
-          Diseñado para uso escolar inclusivo por Pancho &amp; Belén.
+          Observa el Sol, el campo magnético de la Tierra, el índice Kp y las auroras con datos casi en tiempo real.
+          Diseñado para uso escolar inclusivo por Pancho &amp; Belén en Chile.
         </p>
+        <div class="hero-badges" aria-label="Logros desbloqueados" id="badge-strip">
+          <!-- badges dinámicos -->
+        </div>
         <div class="hero-buttons">
           <a href="#dashboard" class="btn primary">📊 Ver dashboard</a>
           <a href="#recursos" class="btn secondary">📚 Recursos para clase</a>
@@ -44,7 +47,6 @@
           <h2>QR del dashboard</h2>
           <p>Imprime este código para pegarlo en el laboratorio o sala.</p>
           <div class="qr-placeholder">
-            <!-- El usuario puede reemplazar esta imagen por un QR real generado con su URL de GitHub -->
             <span>QR<br/>aquí</span>
           </div>
           <small>Tip: genera el QR con cualquier herramienta online y reemplaza <code>qr-dashboard.png</code> en <code>assets/img/</code>.</small>
@@ -57,7 +59,7 @@
       <h2>Vistas del repositorio</h2>
       <div class="view-buttons">
         <a href="viewer3d/sol-3d.html" class="btn view">👁️ 3D — Sol &amp; campo magnético</a>
-        <a href="viewerAR/sol-ar.html" class="btn view">📱 AR — Sol en tu mesa</a>
+        <a href="viewerAR/sol-ar.html" class="btn view">📱 AR — Sol / magnetosfera en tu mesa</a>
         <a href="viewerVR/aurora-vr.html" class="btn view">🥽 VR — Auroras inmersivas</a>
         <a href="#registro" class="btn view">✅ Registro CSV</a>
         <a href="#quiz" class="btn view">🧪 Quiz</a>
@@ -69,65 +71,92 @@
     <section id="dashboard" aria-labelledby="dashboard-title" class="card-grid">
       <h2 id="dashboard-title">📊 Dashboard de datos reales (online)</h2>
 
-      <article class="card" id="card-kp" aria-live="polite">
-        <h3>Índice Kp — Tormentas geomagnéticas</h3>
+      <article class="card speakable" id="card-kp" data-speakable-title="Índice Kp — Tormentas geomagnéticas">
+        <header class="card-header">
+          <h3>Índice Kp — Tormentas geomagnéticas</h3>
+          <button class="card-voice" title="Leer esta tarjeta">🗣️</button>
+        </header>
         <p class="card-desc">
           El índice Kp mide la perturbación del campo magnético terrestre (0 = tranquilo, 9 = tormenta muy fuerte).
+          Tormentas fuertes pueden producir auroras más cerca del ecuador y afectar GPS y radio, pero no dañan directamente a las personas.
         </p>
-        <div class="metric">
+        <div class="metric kp-metric">
           <span class="metric-label">Kp actual:</span>
-          <span id="kp-value" class="metric-value">…</span>
+          <span id="kp-value" class="metric-value pulse">…</span>
+          <span id="kp-status" class="metric-status">Cargando desde NOAA…</span>
         </div>
         <canvas id="kp-chart" aria-label="Historial reciente del índice Kp"></canvas>
-        <small>Datos desde NOAA SWPC (cuando hay conexión a Internet).</small>
+        <small>Fuente: NOAA SWPC (servicio oficial de clima espacial de Estados Unidos).</small>
       </article>
 
-      <article class="card" id="card-aurora">
-        <h3>Probabilidad de auroras</h3>
+      <article class="card speakable" id="card-aurora" data-speakable-title="Probabilidad de auroras">
+        <header class="card-header">
+          <h3>Probabilidad de auroras</h3>
+          <button class="card-voice" title="Leer esta tarjeta">🗣️</button>
+        </header>
         <p class="card-desc">
-          Visualización simple del “oval auroral”. En clase pueden discutir dónde sería posible ver auroras en el planeta.
+          El “oval auroral” muestra las zonas donde es más probable observar auroras. Cuando el índice Kp sube, el oval
+          se expande hacia latitudes más bajas. En Chile, a veces pueden verse auroras en el extremo sur.
         </p>
-        <div class="img-placeholder">
+        <figure class="img-placeholder">
           <span>Mapa oval auroral<br/>Placeholder</span>
-        </div>
-        <small>Reemplaza esta imagen por un mapa real descargado de servicios como NOAA OVATION.</small>
+        </figure>
+        <small>
+          Puedes reemplazar este panel por una imagen actual del modelo OVATION de NOAA descargada como PNG.
+        </small>
       </article>
 
-      <article class="card" id="card-sunspots">
-        <h3>Actividad solar — Manchas</h3>
+      <article class="card speakable" id="card-sunspots" data-speakable-title="Actividad solar y manchas">
+        <header class="card-header">
+          <h3>Actividad solar — Manchas</h3>
+          <button class="card-voice" title="Leer esta tarjeta">🗣️</button>
+        </header>
         <p class="card-desc">
-          Las manchas solares indican zonas de fuerte actividad magnética en la superficie del Sol.
+          Las manchas solares son regiones con campos magnéticos intensos. Su número aumenta y disminuye según el ciclo solar.
+          Más manchas suelen indicar mayor probabilidad de llamaradas y tormentas geomagnéticas.
         </p>
         <div class="metric">
           <span class="metric-label">Número de manchas estimado:</span>
           <span id="sunspot-number" class="metric-value">…</span>
         </div>
-        <div class="img-placeholder">
+        <figure class="img-placeholder">
           <span>Imagen del Sol<br/>Placeholder</span>
-        </div>
-        <small>Puedes actualizar este panel con imágenes recientes del Solar Dynamics Observatory (SDO).</small>
+        </figure>
+        <small>Para el uso avanzado, conecta este panel a datos de SIDC / SILSO o NASA.</small>
       </article>
 
-      <article class="card" id="card-schumann">
-        <h3>Resonancia Schumann — Contexto científico</h3>
+      <article class="card speakable" id="card-schumann" data-speakable-title="Resonancia Schumann — Ciencia y mitos">
+        <header class="card-header">
+          <h3>Resonancia Schumann — Ciencia y mitos</h3>
+          <button class="card-voice" title="Leer esta tarjeta">🗣️</button>
+        </header>
         <p class="card-desc">
-          La resonancia Schumann corresponde a frecuencias de alrededor de 7.83 Hz, 14 Hz, etc., generadas por los rayos 
-          entre la superficie de la Tierra y la ionosfera. No es peligrosa ni una “vibración mística”, sino un fenómeno físico medible.
+          La resonancia Schumann corresponde a un conjunto de frecuencias de alrededor de 7.83 Hz, 14 Hz, 20 Hz, etc.,
+          generadas por los rayos entre la superficie de la Tierra y la ionosfera. No es una “vibración espiritual”
+          sino un fenómeno físico que se puede medir con antenas especiales.
         </p>
         <ul class="bullets">
-          <li>🔌 Se origina por descargas eléctricas (tormentas).</li>
-          <li>📡 Se mide con antenas especiales de muy baja frecuencia (ELF).</li>
-          <li>🧪 Se puede usar en clase para hablar de ondas, frecuencia y energía.</li>
+          <li>🔌 Se origina por descargas eléctricas (tormentas) en la atmósfera.</li>
+          <li>📡 Se mide en la banda ELF (Extremely Low Frequency).</li>
+          <li>🧪 Sirve para trabajar ondas, frecuencia y energía en Física.</li>
         </ul>
+        <div class="mitos">
+          <h4>Mitos vs. ciencia</h4>
+          <p><strong>Mito:</strong> “Si sube la resonancia Schumann, sube nuestra conciencia.”</p>
+          <p><strong>Ciencia:</strong> Cambios pequeños en estas frecuencias se explican por variaciones en la ionosfera y en la actividad eléctrica, no por emociones humanas.</p>
+        </div>
       </article>
     </section>
 
     <!-- Registro CSV -->
-    <section id="registro" class="card full">
-      <h2>✅ Registro de observaciones (exportable a CSV)</h2>
+    <section id="registro" class="card full speakable" data-speakable-title="Registro de observaciones">
+      <header class="card-header">
+        <h2>✅ Registro de observaciones (exportable a CSV)</h2>
+        <button class="card-voice" title="Leer esta sección">🗣️</button>
+      </header>
       <p>
         Completen en clase las observaciones de clima espacial. Luego pueden copiar y pegar la tabla en Google Sheets
-        o descargarla como archivo CSV.
+        o descargarla como archivo CSV. Esto simula el trabajo de un equipo científico que monitorea el Sol y la magnetosfera.
       </p>
       <table id="tabla-registro">
         <thead>
@@ -149,13 +178,18 @@
           </tr>
         </tbody>
       </table>
-      <button id="btn-add-row" class="btn secondary">➕ Agregar fila</button>
-      <button id="btn-download-csv" class="btn primary">💾 Descargar CSV</button>
+      <div class="registro-actions">
+        <button id="btn-add-row" class="btn secondary">➕ Agregar fila</button>
+        <button id="btn-download-csv" class="btn primary">💾 Descargar CSV</button>
+      </div>
     </section>
 
     <!-- Quiz -->
-    <section id="quiz" class="card full">
-      <h2>🧪 Quiz rápido de clima espacial</h2>
+    <section id="quiz" class="card full speakable" data-speakable-title="Quiz rápido de clima espacial">
+      <header class="card-header">
+        <h2>🧪 Quiz rápido de clima espacial</h2>
+        <button class="card-voice" title="Leer esta sección">🗣️</button>
+      </header>
       <form id="quiz-form">
         <div class="quiz-item">
           <p>1. ¿Qué describe mejor el índice Kp?</p>
@@ -181,8 +215,11 @@
     </section>
 
     <!-- Ticket de salida -->
-    <section id="ticket" class="card full">
-      <h2>🎟️ Ticket de salida</h2>
+    <section id="ticket" class="card full speakable" data-speakable-title="Ticket de salida">
+      <header class="card-header">
+        <h2>🎟️ Ticket de salida</h2>
+        <button class="card-voice" title="Leer esta sección">🗣️</button>
+      </header>
       <p>Al terminar la clase, cada estudiante responde estas tres preguntas breves.</p>
       <ol>
         <li>Una idea clave que aprendí sobre clima espacial fue…</li>
@@ -191,11 +228,35 @@
       </ol>
       <p>Puedes copiar sus respuestas a un formulario de Google o pedirles que lo respondan en su cuaderno.</p>
     </section>
+
+    <!-- Recursos docentes -->
+    <section id="recursos" class="card full speakable" data-speakable-title="Recursos docentes sugeridos">
+      <header class="card-header">
+        <h2>📚 Recursos docentes</h2>
+        <button class="card-voice" title="Leer esta sección">🗣️</button>
+      </header>
+      <ul class="bullets">
+        <li>🌡️ Conecta este dashboard con mediciones locales: temperatura, presión, nubes (estación meteorológica escolar).</li>
+        <li>🛰️ Pide al curso que investigue una tormenta geomagnética histórica y la presente en formato póster o video.</li>
+        <li>📈 Usen el registro CSV para practicar lectura de gráficos y tendencias en Matemática.</li>
+        <li>🔬 Relaciona el tema con radiación, magnetismo y ondas en Física.</li>
+        <li>🧠 Trabaja pensamiento crítico comparando noticias virales sobre “Resonancia Schumann” con la explicación científica.</li>
+      </ul>
+    </section>
+
+    <!-- Logros -->
+    <section id="logros" class="card full">
+      <h2>🏅 Logros de la misión espacial</h2>
+      <p>Los logros se guardan en este navegador. Cada vez que tus estudiantes usan una función, se desbloquea una insignia.</p>
+      <ul id="badge-list" class="badge-list">
+        <!-- se rellena por JS -->
+      </ul>
+    </section>
   </main>
 
   <footer>
     <p>
-      Hecho con 💜 por Pancho &amp; Belén — Neotech EduLab · Versión demo educativa.
+      Hecho con 💜 por Pancho &amp; Belén — Neotech EduLab · Versión v2 · Clima espacial inclusivo para Chile.
     </p>
   </footer>
 

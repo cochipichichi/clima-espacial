@@ -19,7 +19,7 @@
 
   <main>
     <section class="card full">
-      <h1>Modelo 3D del Sol (placeholder)</h1>
+      <h1>Modelo 3D del Sol / magnetosfera</h1>
       <p>
         Este visor usa <code>&lt;model-viewer&gt;</code>. Reemplaza el archivo
         <code>../assets/models/sol.glb</code> por un modelo 3D del Sol o de la magnetosfera para trabajar con el curso.
@@ -38,5 +38,17 @@
       </p>
     </section>
   </main>
+
+  <script>
+    // Desbloquear logro 3D
+    try {
+      const raw = localStorage.getItem("schumann_badges");
+      const badges = raw ? JSON.parse(raw) : {};
+      if (!badges["viewer3d"]) {
+        badges["viewer3d"] = "👁️ Explorador/a 3D del Sol";
+        localStorage.setItem("schumann_badges", JSON.stringify(badges));
+      }
+    } catch (e) {}
+  </script>
 </body>
 </html>

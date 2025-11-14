@@ -1,4 +1,4 @@
-// Configuración básica del PWA
+// ---- PWA ----
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -7,20 +7,69 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// Estado global simple
+// ---- Estado global ----
 const state = {
   theme: "dark",
   fontScale: 1,
   lang: "es",
   focusMode: false,
+  badges: {},
 };
 
-// Utilidad: aplicar escala de fuente
+function loadBadges() {
+  try {
+    const raw = localStorage.getItem("schumann_badges");
+    state.badges = raw ? JSON.parse(raw) : {};
+  } catch {
+    state.badges = {};
+  }
+}
+
+function saveBadges() {
+  localStorage.setItem("schumann_badges", JSON.stringify(state.badges));
+}
+
+function awardBadge(key, label) {
+  if (!state.badges[key]) {
+    state.badges[key] = label;
+    saveBadges();
+    renderBadges();
+  }
+}
+
+function renderBadges() {
+  const strip = document.getElementById("badge-strip");
+  const list = document.getElementById("badge-list");
+  if (!strip || !list) return;
+
+  strip.innerHTML = "";
+  list.innerHTML = "";
+
+  const entries = Object.entries(state.badges);
+  if (entries.length === 0) {
+    strip.innerHTML =
+      '<span class="badge-chip">🚀 Aún no hay logros. ¡Explora el sitio!</span>';
+    return;
+  }
+
+  entries.forEach(([key, label]) => {
+    const chip = document.createElement("span");
+    chip.className = "badge-chip";
+    chip.textContent = label;
+    strip.appendChild(chip);
+
+    const li = document.createElement("li");
+    li.className = "badge-pill";
+    li.textContent = label;
+    list.appendChild(li);
+  });
+}
+
+// ---- Accesibilidad: fuente y tema ----
 function applyFontScale() {
   document.documentElement.style.fontSize = `${state.fontScale * 16}px`;
 }
 
-// Utilidad: cambiar tema
 function applyTheme() {
   if (state.theme === "light") {
     document.body.classList.add("light");
@@ -29,7 +78,7 @@ function applyTheme() {
   }
 }
 
-// Narrador básico usando SpeechSynthesis
+// ---- Narrador ----
 function speak(text) {
   if (!("speechSynthesis" in window)) {
     alert("Tu navegador no soporta síntesis de voz.");
@@ -41,7 +90,20 @@ function speak(text) {
   window.speechSynthesis.speak(utter);
 }
 
-// Inicializar controles de la barra superior
+function initCardNarrators() {
+  const speakable = document.querySelectorAll(".speakable");
+  speakable.forEach((card) => {
+    const btn = card.querySelector(".card-voice");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const title = card.dataset.speakableTitle || card.querySelector("h2,h3")?.textContent || "";
+      const text = card.textContent || "";
+      speak(`${title}. ${text}`);
+    });
+  });
+}
+
+// ---- Controles de barra superior ----
 function initControls() {
   const $ = (id) => document.getElementById(id);
 
@@ -52,6 +114,7 @@ function initControls() {
   $("#btn-theme")?.addEventListener("click", () => {
     state.theme = state.theme === "dark" ? "light" : "dark";
     applyTheme();
+    awardBadge("theme", "🌓 Maestro/a del modo oscuro");
   });
 
   $("#btn-font-plus")?.addEventListener("click", () => {
@@ -70,9 +133,10 @@ function initControls() {
       speak(selection);
     } else {
       speak(
-        "Este dashboard muestra el índice K p, la actividad solar y una explicación científica de la resonancia Schumann."
+        "Este dashboard muestra el índice K p, la actividad solar, las auroras y una explicación científica de la resonancia Schumann."
       );
     }
+    awardBadge("voice", "🗣️ Explorador/a inclusivo");
   });
 
   $("#btn-lang")?.addEventListener("click", () => {
@@ -99,7 +163,7 @@ function initControls() {
   });
 }
 
-// Tabla de registro -> agregar filas y generar CSV
+// ---- Registro CSV ----
 function initRegistro() {
   const table = document.getElementById("tabla-registro");
   if (!table) return;
@@ -141,10 +205,11 @@ function initRegistro() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    awardBadge("csv", "✅ Analista de datos espaciales");
   });
 }
 
-// Quiz simple autocorregido
+// ---- Quiz ----
 function initQuiz() {
   const form = document.getElementById("quiz-form");
   const resultEl = document.getElementById("quiz-result");
@@ -179,41 +244,51 @@ function initQuiz() {
 
     resultEl.textContent = `${msg} Puntaje: ${score}/3.`;
     resultEl.style.color = score === 3 ? "#22c55e" : "#facc15";
+
+    if (score === 3) {
+      awardBadge("quiz", "🧪 Experto/a en clima espacial");
+    }
   });
 }
 
-// ---- Datos reales (o casi) de clima espacial ----
-// NOTA: Algunas APIs pueden requerir CORS o claves. Esto es un ejemplo educativo.
-
+// ---- Datos reales: índice Kp (NOAA) ----
 async function fetchKPIndex() {
   const kpValueEl = document.getElementById("kp-value");
+  const kpStatusEl = document.getElementById("kp-status");
   const canvas = document.getElementById("kp-chart");
   if (!kpValueEl || !canvas) return;
 
+  kpValueEl.textContent = "…";
+  kpStatusEl.textContent = "Cargando desde NOAA…";
+  kpValueEl.classList.add("pulse");
+
   try {
-    // Ejemplo usando una API pública de clima espacial (puede cambiar en el tiempo).
     const res = await fetch(
       "https://services.swpc.noaa.gov/products/noaa-estimated-kp-index-1-minute.json"
     );
     if (!res.ok) throw new Error("Respuesta no OK");
     const data = await res.json();
 
-    // El formato de esta API suele ser: primera fila cabeceras, resto datos
-    const rows = data.slice(-30); // últimos ~30 minutos
-    const values = rows.map((row) => parseFloat(row[1]));
+    const rows = data.slice(-30);
+    const values = rows.map((row) => parseFloat(row[1])).filter((v) => !isNaN(v));
     const last = values[values.length - 1];
 
     kpValueEl.textContent = isFinite(last) ? last.toFixed(1) : "N/D";
+    kpStatusEl.textContent =
+      last >= 5
+        ? "Tormenta geomagnética moderada o fuerte."
+        : "Condiciones geomagnéticas tranquilas o leves.";
+    kpValueEl.classList.remove("pulse");
 
-    // Dibujar un gráfico muy simple con canvas 2D
+    // Dibujar gráfico simple
     const ctx = canvas.getContext("2d");
     const w = (canvas.width = canvas.clientWidth || 260);
     const h = (canvas.height = 120);
     ctx.clearRect(0, 0, w, h);
+
     ctx.strokeStyle = "#facc15";
     ctx.lineWidth = 2;
     ctx.beginPath();
-
     const maxKp = 9;
     values.forEach((v, i) => {
       const x = (i / Math.max(values.length - 1, 1)) * (w - 10) + 5;
@@ -223,7 +298,6 @@ async function fetchKPIndex() {
     });
     ctx.stroke();
 
-    // Ejes simples
     ctx.strokeStyle = "rgba(148,163,184,0.6)";
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -231,23 +305,27 @@ async function fetchKPIndex() {
     ctx.lineTo(5, h - 10);
     ctx.lineTo(w - 5, h - 10);
     ctx.stroke();
+
+    awardBadge("kp", "📊 Observador/a de tormentas Kp");
   } catch (err) {
     console.warn("No se pudo cargar el índice Kp:", err);
-    kpValueEl.textContent = "N/D";
+    kpValueEl.textContent = "—";
+    kpStatusEl.textContent =
+      "No se pudo conectar a NOAA (revisa Internet o intenta más tarde).";
+    kpValueEl.classList.remove("pulse");
   }
 }
 
+// ---- Manchas solares (simulado / placeholder) ----
 async function fetchSunspots() {
   const el = document.getElementById("sunspot-number");
   if (!el) return;
   try {
-    // Ejemplo mínimo con NASA DONKI u otra fuente podría requerir clave.
-    // Para mantenerlo simple, usamos un valor simulado si falla.
     el.textContent = "cargando…";
 
-    // Aquí podrías conectar una API real. Dejamos un valor ficticio.
-    // Simulación:
-    const fake = 120 + Math.round(Math.random() * 40);
+    // Aquí podrías reemplazar por una API real (por ejemplo SILSO).
+    const fake = 80 + Math.round(Math.random() * 60);
+    await new Promise((r) => setTimeout(r, 400));
     el.textContent = fake.toString();
   } catch (err) {
     console.warn("Error obteniendo manchas:", err);
@@ -256,11 +334,14 @@ async function fetchSunspots() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  loadBadges();
   applyTheme();
   applyFontScale();
   initControls();
+  initCardNarrators();
   initRegistro();
   initQuiz();
+  renderBadges();
   fetchKPIndex();
   fetchSunspots();
 });

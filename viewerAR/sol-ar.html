@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>📱 AR — Sol en tu mesa</title>
+  <title>📱 AR — Sol / magnetosfera en tu mesa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.6/aframe/build/aframe-ar.min.js"></script>
@@ -11,7 +11,7 @@
 <body class="dark">
   <header class="top-bar">
     <div class="top-left">
-      <span class="logo">📱 AR — Sol en tu mesa</span>
+      <span class="logo">📱 AR — Sol / magnetosfera</span>
     </div>
     <div class="top-right controls">
       <a href="../index.html" class="btn secondary">🏠 Volver</a>
@@ -30,12 +30,8 @@
       <ol>
         <li>Abre esta página desde tu celular.</li>
         <li>Permite el uso de la cámara.</li>
-        <li>Apunta al marcador impreso y verás el Sol sobre la hoja.</li>
+        <li>Apunta al marcador impreso y verás el modelo sobre la hoja.</li>
       </ol>
-
-      <p>
-        Cuando estés listo, presiona el botón para iniciar la cámara:
-      </p>
     </section>
 
     <section class="card full" style="padding:0; overflow:hidden;">
@@ -56,5 +52,17 @@
       </a-scene>
     </section>
   </main>
+
+  <script>
+    // Desbloquear logro AR
+    try {
+      const raw = localStorage.getItem("schumann_badges");
+      const badges = raw ? JSON.parse(raw) : {};
+      if (!badges["viewerAR"]) {
+        badges["viewerAR"] = "📱 Explorador/a AR del Sol";
+        localStorage.setItem("schumann_badges", JSON.stringify(badges));
+      }
+    } catch (e) {}
+  </script>
 </body>
 </html>
