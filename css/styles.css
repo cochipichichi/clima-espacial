@@ -451,3 +451,13 @@ footer {
     font-size: 0.8rem;
   }
 }
+
+
+.logo-mark {
+  height: 30px;
+  width: auto;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, #f97316, #020617);
+  padding: 2px;
+}
