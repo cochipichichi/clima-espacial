@@ -24,12 +24,24 @@ body {
   background: var(--bg-dark);
   color: var(--fg-dark);
   padding-top: 64px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, filter 0.2s ease;
 }
 
 body.light {
   background: var(--bg-light);
   color: var(--fg-light);
+}
+
+/* Accesibilidad avanzada */
+body.mode-dyslexia {
+  font-family: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.04em;
+}
+body.mode-tea {
+  filter: saturate(0.8);
+}
+body.mode-lowvision {
+  font-size: 18px;
 }
 
 .top-bar {
@@ -52,10 +64,24 @@ body.light .top-bar {
   color: #111827;
 }
 
+.logo-mark {
+  height: 30px;
+  width: auto;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, #f97316, #020617);
+  padding: 2px;
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+}
+
 .top-left .logo {
   font-weight: 600;
   letter-spacing: 0.08em;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
 }
 
@@ -220,6 +246,7 @@ body.light .btn.view {
   margin-top: 0.75rem;
 }
 
+/* Cards */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -347,6 +374,11 @@ body.light .card-desc {
   color: #9ca3af;
 }
 
+.img-placeholder img {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
 .bullets {
   font-size: 0.9rem;
   padding-left: 1rem;
@@ -366,6 +398,7 @@ body.light .card-desc {
   margin-top: 2rem;
 }
 
+/* Registro & tablas */
 #tabla-registro {
   width: 100%;
   border-collapse: collapse;
@@ -395,6 +428,126 @@ body.light .card-desc {
   gap: 0.5rem;
 }
 
+/* Grids */
+.sim-grid,
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.sim-output,
+.lab-output {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+/* Timeline */
+.timeline {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.timeline-item {
+  border-left: 2px solid rgba(148, 163, 184, 0.7);
+  padding-left: 0.6rem;
+}
+
+.timeline-year {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+}
+
+/* Noticias */
+.news-list {
+  font-size: 0.9rem;
+  padding-left: 1.1rem;
+}
+
+/* Leaflet map */
+.leaflet-container {
+  width: 100%;
+  height: 220px;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+/* Modos accesibilidad */
+.mode-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Logros & marcador */
+.badge-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.badge-pill {
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid rgba(148,163,184,0.7);
+  background: rgba(15,23,42,0.9);
+  font-size: 0.75rem;
+}
+
+.score-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#score-name {
+  flex: 1 1 180px;
+  padding: 0.3rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.7);
+  background: transparent;
+  color: inherit;
+}
+
+.score-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148,163,184,0.5);
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.score-item button {
+  margin-left: 0.25rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b7280;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Quiz */
 .quiz-item {
   margin-bottom: 1rem;
 }
@@ -413,51 +566,17 @@ body.light .card-desc {
   font-weight: 600;
 }
 
-.badge-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.5rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.badge-pill {
-  border-radius: 999px;
-  padding: 0.25rem 0.7rem;
-  border: 1px solid rgba(148,163,184,0.7);
-  background: rgba(15,23,42,0.9);
-  font-size: 0.75rem;
-}
-
-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #6b7280;
-  padding: 1.5rem 1rem 3rem;
-}
-
 @media (max-width: 768px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .top-left .logo {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .controls button {
     padding-inline: 0.45rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
-}
-
-
-.logo-mark {
-  height: 30px;
-  width: auto;
-  margin-right: 0.5rem;
-  border-radius: 999px;
-  background: radial-gradient(circle at center, #f97316, #020617);
-  padding: 2px;
 }

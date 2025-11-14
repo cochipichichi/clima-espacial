@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>📱 AR — Sol / magnetosfera en tu mesa</title>
+  <title>📱 AR — Sol con marcador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.6/aframe/build/aframe-ar.min.js"></script>
@@ -11,7 +11,7 @@
 <body class="dark">
   <header class="top-bar">
     <div class="top-left">
-      <span class="logo">📱 AR — Sol / magnetosfera</span>
+      <span class="logo">📱 AR — Sol con marcador</span>
     </div>
     <div class="top-right controls">
       <a href="../index.html" class="btn secondary">🏠 Volver</a>
@@ -20,20 +20,12 @@
 
   <main>
     <section class="card full">
-      <h1>Realidad aumentada con marcador</h1>
+      <h1>Realidad aumentada con marcador (AR.js)</h1>
       <p>
-        Este ejemplo usa <strong>AR.js</strong> con un marcador tipo <code>hiro</code>. Imprime el marcador clásico
-        o configura el tuyo y reemplaza el modelo 3D en <code>../assets/models/sol.glb</code>.
+        Imprime un marcador tipo <code>hiro</code> y reemplaza el modelo 3D en <code>../assets/models/sol.glb</code>
+        para ver el Sol o la magnetosfera sobre tu mesa.
       </p>
-
-      <p><strong>Instrucciones rápidas:</strong></p>
-      <ol>
-        <li>Abre esta página desde tu celular.</li>
-        <li>Permite el uso de la cámara.</li>
-        <li>Apunta al marcador impreso y verás el modelo sobre la hoja.</li>
-      </ol>
     </section>
-
     <section class="card full" style="padding:0; overflow:hidden;">
       <a-scene
         embedded
@@ -45,7 +37,7 @@
         </a-assets>
 
         <a-marker type="pattern" preset="hiro">
-          <a-entity gltf-model="#solModel" scale="0.5 0.5 0.5" rotation="0 0 0"></a-entity>
+          <a-entity gltf-model="#solModel" scale="0.5 0.5 0.5"></a-entity>
         </a-marker>
 
         <a-entity camera></a-entity>
@@ -54,7 +46,6 @@
   </main>
 
   <script>
-    // Desbloquear logro AR
     try {
       const raw = localStorage.getItem("schumann_badges");
       const badges = raw ? JSON.parse(raw) : {};

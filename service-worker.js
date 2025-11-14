@@ -1,4 +1,4 @@
-const CACHE_NAME = "schumann-dashboard-v2";
+const CACHE_NAME = "schumann-dashboard-v4";
 const ASSETS = [
   "./",
   "./index.html",
@@ -32,11 +32,12 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
-      return fetch(request).catch(() =>
-        new Response("Estás offline y este recurso no está en caché.", {
-          status: 503,
-          headers: { "Content-Type": "text/plain; charset=utf-8" },
-        })
+      return fetch(request).catch(
+        () =>
+          new Response("Estás offline y este recurso no está en caché.", {
+            status: 503,
+            headers: { "Content-Type": "text/plain; charset=utf-8" },
+          })
       );
     })
   );

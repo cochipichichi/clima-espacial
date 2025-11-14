@@ -21,14 +21,10 @@
     <section class="card full">
       <h1>Escena VR simple de auroras</h1>
       <p>
-        Esta escena es un ejemplo básico con <strong>A-Frame</strong>. Puedes reemplazar la textura del cielo por una foto
-        panorámica de auroras o un <em>equirectangular</em> de la NASA/ESA.
-      </p>
-      <p>
-        Abre esta página en un visor VR o en tu celular y usa el icono de gafas para entrar a modo inmersivo.
+        Usa el icono de gafas para entrar en modo VR. Puedes reemplazar el cielo por una imagen panorámica de auroras
+        para una experiencia aún más realista.
       </p>
     </section>
-
     <section class="card full" style="padding:0; overflow:hidden; height:420px;">
       <a-scene embedded background="color: #020617">
         <a-sky color="#020617"></a-sky>
@@ -49,7 +45,6 @@
   </main>
 
   <script>
-    // Desbloquear logro VR
     try {
       const raw = localStorage.getItem("schumann_badges");
       const badges = raw ? JSON.parse(raw) : {};

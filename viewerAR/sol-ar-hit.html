@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>📱 AR — Sol sin marcador (experimento)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-ar-hit-test-component@0.6.3/dist/aframe-ar-hit-test-component.min.js"></script>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="dark">
+  <header class="top-bar">
+    <div class="top-left">
+      <span class="logo">📱 AR — Sol sin marcador</span>
+    </div>
+    <div class="top-right controls">
+      <a href="../index.html" class="btn secondary">🏠 Volver</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="card full">
+      <h1>Realidad aumentada sin marcador (WebXR hit-test)</h1>
+      <p>
+        Esta vista es experimental y requiere un dispositivo compatible con WebXR (Chrome Android, etc.).
+        Al detectar una superficie plana, se colocará el modelo del Sol.
+      </p>
+    </section>
+    <section class="card full" style="padding:0; overflow:hidden; height:420px;">
+      <a-scene
+        xr-mode-ui="enabled: true"
+        webxr="requiredFeatures: hit-test"
+        renderer="logarithmicDepthBuffer: true; antialias: true;"
+        vr-mode-ui="enabled: false"
+        embedded>
+        <a-assets>
+          <a-asset-item id="solModel" src="../assets/models/sol.glb"></a-asset-item>
+        </a-assets>
+
+        <a-entity
+          id="reticle"
+          geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
+          material="color: #facc15; shader: flat;"
+          rotation="-90 0 0"
+          visible="false"
+          ar-hit-test="target:#sol; type:viewer;">
+        </a-entity>
+
+        <a-entity id="sol" gltf-model="#solModel" visible="false"></a-entity>
+
+        <a-entity camera look-controls></a-entity>
+      </a-scene>
+    </section>
+  </main>
+
+  <script>
+    try {
+      const raw = localStorage.getItem("schumann_badges");
+      const badges = raw ? JSON.parse(raw) : {};
+      if (!badges["viewerARhit"]) {
+        badges["viewerARhit"] = "📱 Explorador/a AR sin marcador";
+        localStorage.setItem("schumann_badges", JSON.stringify(badges));
+      }
+    } catch (e) {}
+  </script>
+</body>
+</html>
